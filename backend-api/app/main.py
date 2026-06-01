@@ -149,6 +149,15 @@ app.add_middleware(
 app.include_router(router)
 
 
+@app.get("/")
+async def root():
+    return {
+        "message": "KDP Book Generator Studio Backend API is running",
+        "docs": "/docs",
+        "health": "/api/v1/health"
+    }
+
+
 # ── Main Entry Point ─────────────────────────────────────────────────
 
 if __name__ == "__main__":
