@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+  projects      Project[]
+  apiKeys       ApiKey?
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  title       String
+  description String?
+  pageCount   Int
+  status      String   @default("draft") // draft, generating, completed
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // JSON field for page map
+  pageMap     Json?
+  
+  // SEO Metadata
+  seoTitle       String?
+  seoSubtitle    String?
+  seoDescription String?
+  seoKeywords    Json?
+  
+  // Outputs
+  pdfUrl      String?
+  epubUrl     String?
+  coverUrl    String?
+}
+
+model ApiKey {
+  id              String @id @default(cuid())
+  userId          String @unique
+  user            User   @relation(fields: [userId], references: [id])
+  openai_key      String? // Encrypted
+  stability_key   String? // Encrypted
+}

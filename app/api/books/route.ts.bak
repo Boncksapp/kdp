@@ -1,0 +1,93 @@
+import { NextRequest, NextResponse } from "next/server";
+
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8000";
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { action = "plan" } = body;
+
+    // Route to the appropriate Python backend endpoint
+    let endpoint = "";
+    let method = "POST";
+    let payload = body;
+
+    switch (action) {
+      case "save-key":
+        endpoint = `${BACKEND_URL}/api/v1/keys/save`;
+        break;
+      case "check-keys":
+        endpoint = `${BACKEND_URL}/api/v1/keys/status?profile_name=${body.profile_name || "default"}`;
+        method = "POST";
+        payload = {};
+        break;
+      case "delete-key":
+        endpoint = `${BACKEND_URL}/api/v1/keys/delete`;
+        break;
+      case "plan":
+        // Content rules enforced here:
+        // Max 220 pages, children's word limits, etc.
+        if (body.page_count && body.page_count > 220) {
+          return NextResponse.json(
+            { error: "Maximum 220 pages allowed per project." },
+            { status: 400 }
+          );
+        }
+        endpoint = `${BACKEND_URL}/api/v1/planner/plan`;
+        break;
+      case "create-project":
+        if (body.page_count && body.page_count > 220) {
+          return NextResponse.json(
+            { error: "Maximum 220 pages allowed per project." },
+            { status: 400 }
+          );
+        }
+        endpoint = `${BACKEND_URL}/api/v1/projects/create`;
+        break;
+      case "job-status":
+        endpoint = `${BACKEND_URL}/api/v1/jobs/${body.job_id}`;
+        method = "GET";
+        payload = undefined;
+        break;
+      case "list-jobs":
+        endpoint = `${BACKEND_URL}/api/v1/jobs?limit=${body.limit || 20}${body.status ? `&status=${body.status}` : ""}`;
+        method = "GET";
+        payload = undefined;
+        break;
+      default:
+        return NextResponse.json({ error: `Unknown action: ${action}` }, { status: 400 });
+    }
+
+    const fetchOpts: RequestInit = {
+      method,
+      headers: { "Content-Type": "application/json" },
+    };
+
+    if (payload && (method === "POST" || method === "PUT")) {
+      fetchOpts.body = JSON.stringify(payload);
+    }
+
+    const response = await fetch(endpoint, fetchOpts);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      return NextResponse.json(
+        { error: `Backend error: ${errorText}` },
+        { status: response.status }
+      );
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error: any) {
+    console.error("Backend bridge error:", error);
+    return NextResponse.json(
+      { error: `Backend unavailable: ${error.message}` },
+      { status: 503 }
+    );
+  }
+}
+
+export async function GET(request: NextRequest) {
+  return POST(request);
+}
