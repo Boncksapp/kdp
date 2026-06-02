@@ -27,11 +27,10 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Signup handleSubmit called for:", email);
     setError("");
 
     if (!allChecksPassed) {
-      console.log("Signup failed: Password requirements not met");
+      console.log("Signup failed: allChecksPassed is false", passwordChecks);
       setError("Please meet all password requirements.");
       return;
     }
@@ -42,21 +41,28 @@ export default function SignupPage() {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: email.trim(), password }),
       });
 
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (e) {
+        throw new Error(`Server returned non-JSON response (Status: ${res.status})`);
+      }
 
       if (!res.ok) {
-        throw new Error(data.error || "Registration failed");
+        const serverError = data.error || `Error ${res.status}`;
+        throw new Error(`Server Error: ${serverError}`);
       }
 
       setSuccess(true);
       setTimeout(() => {
         router.push("/login");
       }, 2000);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "An unknown error occurred";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -192,7 +198,7 @@ export default function SignupPage() {
 
           <button
             type="submit"
-            disabled={loading || !allChecksPassed}
+            disabled={loading}
             className="flex w-full items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? (

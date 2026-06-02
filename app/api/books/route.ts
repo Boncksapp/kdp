@@ -105,10 +105,11 @@ export async function POST(request: NextRequest) {
 
     const data = await response.json();
     return NextResponse.json(data);
-  } catch (error: any) {
+  } catch (error) {
     console.error("Backend bridge error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: `Backend unavailable: ${error.message}` },
+      { error: `Backend unavailable: ${message}` },
       { status: 503 }
     );
   }

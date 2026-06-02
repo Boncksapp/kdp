@@ -75,7 +75,7 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-zinc-400">
-                Most platforms markup AI costs by 3-5x. We don't. You pay OpenAI and Stability AI 
+                Most platforms markup AI costs by 3-5x. We don&apos;t. You pay OpenAI and Stability AI 
                 directly at wholesale rates.
               </p>
             </CardContent>
@@ -99,7 +99,7 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-zinc-400">
-                Whether you're making one book or one hundred, our flat subscription fee ensures 
+                Whether you&apos;re making one book or one hundred, our flat subscription fee ensures 
                 predictable software costs.
               </p>
             </CardContent>

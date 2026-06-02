@@ -155,13 +155,14 @@ export function MetadataPanel({ projectId, projectTitle, initialMetadata }: Meta
       } else {
         throw new Error("No job_id returned from backend");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("Metadata generation failed:", err);
-      if (err.message?.includes("Backend unavailable") || err.message?.includes("fetch")) {
+      const error = err as Error;
+      if (error.message?.includes("Backend unavailable") || error.message?.includes("fetch")) {
         setError("Backend is unavailable. Using simulated metadata as fallback.");
         fallbackGenerate();
       } else {
-        setError(err.message || "Failed to generate metadata");
+        setError(error.message || "Failed to generate metadata");
         setGenerating(false);
       }
     }

@@ -107,7 +107,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Badge variant={statusColors[project.status] as any}>{project.status}</Badge>
+                    <Badge variant={statusColors[project.status] as "success" | "warning" | "secondary" | "default"}>{project.status}</Badge>
                     <span className="text-xs text-zinc-500">{project.updated}</span>
                   </div>
                 </div>

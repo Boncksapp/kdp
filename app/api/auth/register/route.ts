@@ -3,9 +3,11 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
+  console.log("POST /api/auth/register called");
   try {
     const body = await request.json();
     const { email, password } = body;
+    console.log("Registration attempt for email:", email);
 
     // Validate input
     if (!email || !password) {
@@ -56,8 +58,12 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error: any) {
-    console.error("Registration error:", error);
+  } catch (error) {
+    console.error("CRITICAL REGISTRATION ERROR:", error);
+    if (error instanceof Error) {
+      console.error("Error Message:", error.message);
+      console.error("Error Stack:", error.stack);
+    }
     return NextResponse.json(
       { error: "Registration failed. Please try again." },
       { status: 500 }

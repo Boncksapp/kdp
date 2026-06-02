@@ -19,7 +19,7 @@ export default function ContactPage() {
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-100 sm:text-5xl">Contact Us</h1>
         <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-          Have questions? We're here to help you on your publishing journey.
+          Have questions? We&apos;re here to help you on your publishing journey.
         </p>
       </div>
 
@@ -83,7 +83,7 @@ export default function ContactPage() {
           <CardHeader>
             <CardTitle className="text-zinc-100">Send us a message</CardTitle>
             <CardDescription className="text-zinc-500">
-              Fill out the form below and we'll get back to you as soon as possible.
+              Fill out the form below and we&apos;ll get back to you as soon as possible.
             </CardDescription>
           </CardHeader>
           <CardContent>
