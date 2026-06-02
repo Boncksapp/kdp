@@ -9,61 +9,22 @@ import Link from "next/link";
 
 const tiers = [
   {
-    name: "Starter",
-    price: "$19",
+    name: "Creator",
+    price: "$19.99",
     period: "/month",
-    description: "Perfect for getting started with AI-powered publishing.",
+    description: "Full access to the professional KDP publishing studio.",
     features: [
-      "5 book generations per month",
-      "Up to 50 pages per book",
-      "SDXL image generation",
-      "KDP-compliant PDF export",
-      "EPUB export",
-      "Email support",
-    ],
-    highlighted: false,
-    cta: "Get Started",
-    popular: false,
-  },
-  {
-    name: "Pro",
-    price: "$49",
-    period: "/month",
-    description: "For serious self-publishers scaling their output.",
-    features: [
-      "25 book generations per month",
-      "Up to 200 pages per book",
-      "Unlimited image generations",
-      "Priority processing queue",
-      "Batch project export",
-      "API access (1,000 req/hr)",
-      "Chat support",
-      "Custom branding",
+      "Unlimited Book Projects",
+      "Unlimited Book Exports",
+      "GPT-4 Page Planning",
+      "SDXL Image Generation",
+      "KDP-Compliant PDF Export",
+      "Reflowable EPUB Export",
+      "Priority Customer Support",
     ],
     highlighted: true,
-    cta: "Start Free Trial",
+    cta: "Get Started",
     popular: true,
-  },
-  {
-    name: "Agency",
-    price: "$149",
-    period: "/month",
-    description: "For teams and high-volume publishing operations.",
-    features: [
-      "100 book generations per month",
-      "Up to 500 pages per book",
-      "Unlimited image generations",
-      "Dedicated processing queue",
-      "Team collaboration (5 seats)",
-      "Full API access (10,000 req/hr)",
-      "Priority support",
-      "Custom integrations",
-      "White-label exports",
-      "SLA guarantee",
-    ],
-    highlighted: false,
-    cta: "Contact Sales",
-    popular: false,
   },
 ];
 
@@ -79,9 +40,9 @@ export default function PricingPage() {
             <Sparkles className="h-8 w-8 text-indigo-400" />
           </div>
         </div>
-        <h1 className="text-4xl font-bold tracking-tight text-zinc-100">Simple, Transparent Pricing</h1>
+        <h1 className="text-4xl font-bold tracking-tight text-zinc-100">Simple, Professional Pricing</h1>
         <p className="text-lg text-zinc-500 max-w-2xl mx-auto">
-          Choose the plan that fits your publishing needs. All plans include our core AI book generation engine.
+          One plan. Everything you need to create and publish books on Amazon KDP.
         </p>
 
         {/* Toggle */}
@@ -95,50 +56,39 @@ export default function PricingPage() {
           </button>
           <span className={`text-sm ${annual ? "text-zinc-200 font-medium" : "text-zinc-500"}`}>
             Annual
-            <Badge variant="success" className="ml-2 text-[10px] px-1.5 py-0">Save 20%</Badge>
+            <Badge variant="success" className="ml-2 text-[10px] px-1.5 py-0 font-medium">Save 20%</Badge>
           </span>
         </div>
       </div>
 
       {/* Pricing Cards */}
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="flex justify-center">
         {tiers.map((tier) => (
           <Card
             key={tier.name}
-            className={`relative border transition-all duration-200 ${
-              tier.popular
-                ? "border-indigo-500 bg-zinc-900 shadow-lg shadow-indigo-600/10 scale-105"
-                : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-700"
-            }`}
+            className="relative border border-indigo-500 bg-zinc-900 shadow-lg shadow-indigo-600/10 scale-105 max-w-md w-full transition-all duration-200"
           >
-            {tier.popular && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <Badge variant="default" className="bg-indigo-600 text-white px-4 py-1 text-xs font-semibold">
-                  Most Popular
-                </Badge>
-              </div>
-            )}
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <Badge variant="default" className="bg-indigo-600 text-white px-4 py-1 text-xs font-semibold">
+                Most Popular
+              </Badge>
+            </div>
 
             <CardHeader className="pb-4">
               <CardTitle className="text-xl text-zinc-100">{tier.name}</CardTitle>
               <CardDescription className="text-zinc-500">{tier.description}</CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold text-zinc-100">
-                  {annual ? `$${Math.round(parseInt(tier.price.replace("$", "")) * 0.8 * 12 / 12)}` : tier.price}
+                  {annual ? `${Math.round(19.99 * 0.8 * 12 / 12)}.99` : tier.price}
                 </span>
                 <span className="text-zinc-500 ml-1">{annual ? "/month, billed annually" : tier.period}</span>
               </div>
             </CardHeader>
 
             <CardContent>
-              <Link href={tier.name === "Agency" ? "#" : "/settings/billing"}>
+              <Link href="/signup">
                 <Button
-                  className={`w-full mb-6 ${
-                    tier.popular
-                      ? "bg-indigo-600 hover:bg-indigo-500 text-white"
-                      : "border-zinc-700 text-zinc-300 hover:bg-zinc-800"
-                  }`}
-                  variant={tier.popular ? "default" : "outline"}
+                  className="w-full mb-6 bg-indigo-600 hover:bg-indigo-500 text-white"
                 >
                   {tier.cta}
                   <ArrowRight className="h-4 w-4 ml-2" />
@@ -153,6 +103,13 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
+              
+              <div className="mt-8 pt-6 border-t border-zinc-800">
+                <p className="text-xs text-zinc-500 text-center">
+                  * Requires your own OpenAI and Stability AI API keys. 
+                  You pay only the wholesale cost of generation with zero markup from us.
+                </p>
+              </div>
             </CardContent>
           </Card>
         ))}

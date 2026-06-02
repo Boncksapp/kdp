@@ -67,18 +67,16 @@ export default function LandingPageContent() {
   ];
 
   const pricingSummary = [
-    { name: "Starter", price: "$19", credits: "500/mo", cta: "Get Started", popular: false },
-    { name: "Pro", price: "$49", credits: "2,000/mo", cta: "Start Free Trial", popular: true },
-    { name: "Agency", price: "$149", credits: "10,000/mo", cta: "Contact Sales", popular: false },
+    { name: "Creator", price: "$19.99", features: "Full Platform Access", cta: "Get Started", popular: true },
   ];
 
   const faqs = [
     { id: "q1", q: "What types of books can I create?", a: "KDP Studio supports fiction, non-fiction, children's books, coloring books, journals, planners, cookbooks, poetry collections, and more. Our AI adapts to your chosen genre and format." },
-    { id: "q2", q: "Are the illustrations copyright-free?", a: "Yes! All images generated through KDP Studio are created by AI and you retain full commercial rights. You can use them in your published books without attribution." },
+    { id: "q2", q: "How do the AI costs work?", a: "To keep our subscription price low and give you full control, KDP Studio uses a Bring-Your-Own-Key (BYOK) model. You connect your own OpenAI and Stability AI keys, paying them directly for only what you use with zero markup from us." },
     { id: "q3", q: "Do I need design or coding experience?", a: "Not at all. KDP Studio handles all formatting, layout, and KDP compliance automatically. Just describe your idea and let AI do the rest." },
     { id: "q4", q: "Is the output KDP compliant?", a: "Absolutely. Our exports include proper bleed, margin, and trim settings for all standard KDP sizes. The PDFs pass KDP's internal validation checks." },
     { id: "q5", q: "Can I customize the AI output?", a: "Yes. Every generated element — text, images, layout — is fully editable. You have complete creative control over the final product." },
-    { id: "q6", q: "What if I need more credits?", a: "You can purchase additional credit packs at any time, or upgrade to a higher tier plan. Unused credits roll over month to month." },
+    { id: "q6", q: "Is there a limit on book exports?", a: "No. With the Creator plan, you can generate and export as many books as you like using your own AI keys." },
   ];
 
   return (
@@ -115,7 +113,7 @@ export default function LandingPageContent() {
           >
             <Badge variant="outline" className="mb-6 border-indigo-600/30 text-indigo-400 bg-indigo-600/5 px-4 py-1.5 text-sm">
               <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-              AI-Powered Publishing Studio
+              Professional BYO-Key AI Studio
             </Badge>
             <h1 className="text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
               From Idea to{" "}
@@ -125,8 +123,8 @@ export default function LandingPageContent() {
               in Minutes
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-400 sm:text-xl">
-              Create professional, Amazon KDP-ready books with AI. Generate content, illustrations, and
-              print-ready PDFs — no design skills required.
+              Connect your AI keys and create professional, Amazon KDP-ready books. 
+              Unlimited exports, no hidden markups, and full creative control.
             </p>
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link href="/signup">
@@ -142,9 +140,9 @@ export default function LandingPageContent() {
               </Link>
             </div>
             <div className="mt-8 flex items-center justify-center gap-6 text-sm text-zinc-500">
-              <span className="flex items-center gap-1"><Check className="h-4 w-4 text-emerald-400" /> No credit card</span>
+              <span className="flex items-center gap-1"><Check className="h-4 w-4 text-emerald-400" /> Bring Your Own Key</span>
               <span className="flex items-center gap-1"><Check className="h-4 w-4 text-emerald-400" /> KDP compliant</span>
-              <span className="flex items-center gap-1"><Check className="h-4 w-4 text-emerald-400" /> Cancel anytime</span>
+              <span className="flex items-center gap-1"><Check className="h-4 w-4 text-emerald-400" /> Flat $19.99/mo</span>
             </div>
           </motion.div>
         </div>
@@ -232,38 +230,37 @@ export default function LandingPageContent() {
         <section className="py-24" id="pricing">
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Start Publishing Today</h2>
-              <p className="mt-4 text-lg text-zinc-400">Choose the plan that fits your publishing volume.</p>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">One Simple Price</h2>
+              <p className="mt-4 text-lg text-zinc-400">Connect your own AI keys and pay only for platform access.</p>
             </div>
-            <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
+            <div className="flex justify-center max-w-md mx-auto">
               {pricingSummary.map((tier) => (
-                <Card key={tier.name} className={`relative border ${tier.popular ? "border-indigo-500 bg-zinc-900 shadow-lg shadow-indigo-600/10" : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-700"} transition-all`}>
-                  {tier.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <Badge className="bg-indigo-600 text-white px-3 py-0.5">Most Popular</Badge>
-                    </div>
-                  )}
+                <Card key={tier.name} className={`w-full relative border border-indigo-500 bg-zinc-900 shadow-lg shadow-indigo-600/10 transition-all`}>
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-indigo-600 text-white px-3 py-0.5">Creator Plan</Badge>
+                  </div>
                   <CardHeader className="text-center pb-2">
                     <CardTitle className="text-xl text-zinc-100">{tier.name}</CardTitle>
-                    <div className="mt-2">
-                      <span className="text-3xl font-bold text-zinc-100">{tier.price}</span>
+                    <div className="mt-4">
+                      <span className="text-4xl font-bold text-zinc-100">{tier.price}</span>
                       <span className="text-zinc-500 text-sm">/mo</span>
                     </div>
-                    <p className="text-sm text-zinc-500 mt-1">{tier.credits} credits</p>
+                    <p className="text-sm text-zinc-400 mt-4">{tier.features}</p>
                   </CardHeader>
                   <CardContent className="text-center">
-                    <Link href={tier.name === "Agency" ? "#" : "/login"}>
-                      <Button className={`w-full ${tier.popular ? "bg-indigo-600 hover:bg-indigo-500" : "border-zinc-700 text-zinc-300 hover:bg-zinc-800"}`} variant={tier.popular ? "default" : "outline"}>
+                    <Link href="/login">
+                      <Button className={`w-full bg-indigo-600 hover:bg-indigo-500 text-white`}>
                         {tier.cta}
                       </Button>
                     </Link>
+                    <p className="mt-4 text-xs text-zinc-500">Requires OpenAI & Stability AI API Keys</p>
                   </CardContent>
                 </Card>
               ))}
             </div>
             <div className="text-center mt-8">
               <Link href="/pricing" className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">
-                View full pricing details →
+                View detailed features →
               </Link>
             </div>
           </div>
