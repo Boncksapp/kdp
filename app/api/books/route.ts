@@ -68,6 +68,13 @@ export async function POST(request: NextRequest) {
         method = "GET";
         payload = undefined;
         break;
+      case "complete-subscription":
+        endpoint = `${BACKEND_URL}/api/v1/billing/subscribe`;
+        payload = {
+          profile_name: body.profile_name || "default",
+          tier: body.tier || "pro",
+        };
+        break;
       case "list-jobs":
         endpoint = `${BACKEND_URL}/api/v1/jobs?limit=${body.limit || 20}${body.status ? `&status=${body.status}` : ""}`;
         method = "GET";
