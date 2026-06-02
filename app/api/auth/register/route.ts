@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingUser) {
+      console.log(`Registration failed: User ${email} already exists`);
       return NextResponse.json(
         { error: "An account with this email already exists." },
         { status: 409 }
@@ -35,7 +36,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Hash password and create user
+    console.log(`Hashing password for ${email}...`);
     const passwordHash = await bcrypt.hash(password, 12);
+    console.log(`Password hashed successfully for ${email}`);
 
     const user = await prisma.user.create({
       data: {
@@ -43,6 +46,8 @@ export async function POST(request: NextRequest) {
         password_hash: passwordHash,
       },
     });
+
+    console.log(`User created successfully: ${user.id} (${email})`);
 
     return NextResponse.json(
       {

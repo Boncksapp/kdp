@@ -27,9 +27,11 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Signup handleSubmit called for:", email);
     setError("");
 
     if (!allChecksPassed) {
+      console.log("Signup failed: Password requirements not met");
       setError("Please meet all password requirements.");
       return;
     }
