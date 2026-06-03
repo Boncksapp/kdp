@@ -46,6 +46,7 @@ const colorPalettes = [
 ];
 
 export default function CreateBookPage() {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedPalette, setSelectedPalette] = useState<string | null>(null);
