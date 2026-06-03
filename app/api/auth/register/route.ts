@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: NextRequest) {
-  console.log("POST /api/auth/register called");
+  console.log("POST /api/auth/register called - DATABASE_URL:", process.env.DATABASE_URL);
   try {
     const body = await request.json();
     const { email, password } = body;

@@ -13,6 +13,31 @@ export async function POST(request: NextRequest) {
     let payload = body;
 
     switch (action) {
+      case "export":
+        endpoint = `${BACKEND_URL}/api/v1/projects/export`;
+        payload = {
+          profile_name: body.profile_name || "default",
+          project_dir: body.project_dir,
+          output_dir: body.output_dir,
+          is_preview: body.is_preview || false,
+        };
+        break;
+      case "mockup":
+        endpoint = `${BACKEND_URL}/api/v1/projects/${body.project_id}/mockup`;
+        method = "GET";
+        payload = undefined;
+        break;
+      case "cover-template":
+        endpoint = `${BACKEND_URL}/api/v1/projects/${body.project_id}/cover/template?trim_size=${body.trim_size || "6x9"}&page_count=${body.page_count || 100}&paper_type=${body.paper_type || "white"}`;
+        method = "GET";
+        payload = undefined;
+        break;
+      case "validate":
+        endpoint = `${BACKEND_URL}/api/v1/projects/validate`;
+        payload = {
+          project_dir: body.project_dir,
+        };
+        break;
       case "save-key":
         endpoint = `${BACKEND_URL}/api/v1/keys/save`;
         break;

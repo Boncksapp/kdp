@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,12 +53,31 @@ export default function CreateBookPage() {
   const [title, setTitle] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     setIsGenerating(true);
+    try {
+      const res = await fetch("/api/books", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "create-project",
+          profile_name: "default",
+          description: title || "Untitled Book",
+          book_type: selectedType || "fiction",
+          page_count: 50,
+        }),
+      });
+      const data = await res.json();
+      if (data.job_id) {
+        router.push(`/projects/${data.job_id}`);
+        return;
+      }
+    } catch {}
+    // Fallback: simulate then show review step
     setTimeout(() => {
       setIsGenerating(false);
       setCurrentStep(4);
-    }, 3000);
+    }, 2000);
   };
 
   return (
