@@ -1,8 +1,12 @@
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
 async function main() {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    orderBy: { created_at: "desc" },
+    take: 20
+  });
   console.log(JSON.stringify(users, null, 2));
 }
 

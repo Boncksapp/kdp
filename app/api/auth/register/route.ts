@@ -24,6 +24,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!/[A-Z]/.test(password)) {
+      return NextResponse.json(
+        { error: "Password must contain at least one uppercase letter." },
+        { status: 400 }
+      );
+    }
+
+    if (!/[a-z]/.test(password)) {
+      return NextResponse.json(
+        { error: "Password must contain at least one lowercase letter." },
+        { status: 400 }
+      );
+    }
+
+    if (!/[0-9]/.test(password)) {
+      return NextResponse.json(
+        { error: "Password must contain at least one number." },
+        { status: 400 }
+      );
+    }
+
     // Check for existing user
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -59,13 +80,13 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("CRITICAL REGISTRATION ERROR:", error);
+    console.log("CRITICAL REGISTRATION ERROR DETECTED:", error);
     if (error instanceof Error) {
-      console.error("Error Message:", error.message);
-      console.error("Error Stack:", error.stack);
+      console.log("Error Message:", error.message);
+      console.log("Error Stack:", error.stack);
     }
     return NextResponse.json(
-      { error: "Registration failed. Please try again." },
+      { error: `Registration failed: ${error instanceof Error ? error.message : String(error)}` },
       { status: 500 }
     );
   }
