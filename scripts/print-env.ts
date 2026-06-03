@@ -1,1 +1,1 @@
-console.log(JSON.stringify(process.env, null, 2));
+console.log("Current DATABASE_URL:", process.env.DATABASE_URL);

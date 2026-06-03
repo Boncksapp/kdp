@@ -1,16 +1,25 @@
-import { prisma } from "../lib/prisma";
+import { PrismaClient } from "@prisma/client";
 
-async function test() {
-  console.log("Current DATABASE_URL in process.env:", process.env.DATABASE_URL);
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: "file:/home/team/shared/kdp-studio/prisma/dev.db"
+    }
+  }
+});
+
+async function main() {
+  console.log("Testing Prisma connection with explicit URL...");
   try {
     const user = await prisma.user.findUnique({
-      where: { email: "nonexistent@example.com" }
+      where: { email: "test@example.com" }
     });
-    console.log("Success! Found user:", user);
-  } catch (e) {
-    console.error("FAILED with error:");
-    console.error(e);
+    console.log("SUCCESS: findUnique worked. User:", user);
+  } catch (error) {
+    console.error("FAILURE: Prisma error:", error);
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
-test();
+main();
